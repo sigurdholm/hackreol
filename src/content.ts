@@ -1,5 +1,4 @@
-chrome.runtime.onMessage.addListener(
-  function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
     if (request.message != "getOrderId") {
       return
     }

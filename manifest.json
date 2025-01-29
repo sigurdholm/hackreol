@@ -9,9 +9,6 @@
         "activeTab",
         "downloads"
     ],
-    "background": {
-        "service_worker": "dist/background.bundle.js"
-    },
     "action": {
         "default_popup": "popup.html"
     },
