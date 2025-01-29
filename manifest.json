@@ -1,0 +1,32 @@
+{
+    "manifest_version": 3,
+    "name": "hackreol",
+    "description": "hacker ereolen",
+    "version": "1.0",
+    "permissions": [
+        "storage",
+        "scripting",
+        "activeTab",
+        "downloads"
+    ],
+    "background": {
+        "service_worker": "dist/background.bundle.js"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*/*"
+            ],
+            "js": [
+                "dist/content.bundle.js"
+            ]
+        }
+    ],
+    "host_permissions": [
+        "http://*/*",
+        "https://*/*"
+    ]
+}

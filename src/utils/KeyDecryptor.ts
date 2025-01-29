@@ -1,19 +1,27 @@
 import { Constants } from '../common/Constants';
-import { createDecipheriv } from 'crypto';
+import { Buffer } from 'buffer';
 
 export class KeyDecryptor {
-  static decrypt(encryptedKey: string): Uint8Array {
-    const encryptedBuffer = Buffer.from(encryptedKey, 'base64');
+  static async decrypt(encryptedKey: string): Promise<Uint8Array> {
+    const encryptedKeyBuffer = Buffer.from(encryptedKey, 'base64');
 
-    const decipher = createDecipheriv(
-      'aes-256-cbc', 
-      Buffer.from(Constants.keyEncryptionKey), 
-      Buffer.from(Constants.keyEncryptionIv)
+    const importedKey = await crypto.subtle.importKey(
+      "raw",
+      Constants.keyEncryptionKey,
+      { name: "AES-CBC" },
+      false,
+      ["decrypt"]
     );
 
-    let decrypted = decipher.update(encryptedBuffer);
-    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    const decryptedKeyBuffer = await crypto.subtle.decrypt(
+      {
+        name: "AES-CBC",
+        iv: Constants.keyEncryptionIv
+      },
+      importedKey,
+      encryptedKeyBuffer
+    );
 
-    return new Uint8Array(decrypted);
+    return new Uint8Array(decryptedKeyBuffer);
   }
 }

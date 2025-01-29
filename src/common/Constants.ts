@@ -34,8 +34,7 @@ export abstract class Constants {
         0x4a
     ]);
     static readonly keyEncryptionIv = Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    static readonly SYNCHRONIZATION_INTERVAL: number = 5 * 1000;
-    static readonly LOCATOR_BASE_URL: string = "dk.publizon.reader";
-    static readonly API_ENDPOINT_LIVE: string = "https://bookstreaming.pubhub.dk";
-    static readonly API_ENDPOINT_QA: string = "https://bookstreaming.qa.pubhub.dk";
+    static readonly API_BASE: string = "https://bookstreaming.pubhub.dk";
+    static readonly METADATA_ENDPOINT: string = "v1/order/metadata"
+    static readonly FILE_ENDPOINT: string = "v1/order/file"
 }
