@@ -2,8 +2,8 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    popup: './src/popup.ts',
     content: './src/content.ts',
+    background: './src/background.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

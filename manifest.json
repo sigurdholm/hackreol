@@ -9,8 +9,8 @@
         "activeTab",
         "downloads"
     ],
-    "action": {
-        "default_popup": "popup.html"
+    "background": {
+        "service_worker": "dist/background.bundle.js"
     },
     "content_scripts": [
         {
@@ -28,8 +28,12 @@
     ],
     "web_accessible_resources": [
         {
-            "resources": ["assets/download-icon.svg"],
-            "matches": ["https://ereolen.dk/*"]
+            "resources": [
+                "assets/download-icon.svg"
+            ],
+            "matches": [
+                "https://ereolen.dk/*"
+            ]
         }
     ]
 }
