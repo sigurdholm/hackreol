@@ -1,8 +1,11 @@
 {
     "manifest_version": 3,
+    "version": "1.0",
     "name": "hackReolen",
     "description": "hacker eReolen",
-    "version": "1.0",
+    "icons": {
+        "128": "icons/128.png"
+    },
     "permissions": [
         "downloads"
     ],
