@@ -1,5 +1,6 @@
 import { FileService } from "./services/FileService";
 import { MetadataService } from "./services/MetadataService";
+import { Constants } from "./common/Constants";
 
 // "Main" function
 (async () => {
@@ -13,10 +14,7 @@ async function addButton() {
   const downloadButton = document.createElement('button');
 
   // Set button icon (SVG) 
-  const path = chrome.runtime.getURL("assets/download-icon.svg");
-  const response = await fetch(path);
-  const svgText = await response.text()
-  downloadButton.innerHTML = svgText;
+  downloadButton.innerHTML = Constants.DOWNLOAD_ICON;
 
   if (buttonFromContainer) {
     // Make button match style of other buttons in the container
