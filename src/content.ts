@@ -1,6 +1,7 @@
 import { FileService } from "./services/FileService";
 import { MetadataService } from "./services/MetadataService";
 
+// "Main" function
 (async () => {
   await addButton()
 })();
@@ -9,39 +10,55 @@ async function addButton() {
   const buttonContainer = document.querySelector('.layout-row-end');
   const buttonFromContainer = buttonContainer?.querySelector('button');
 
-  var downloadButton = document.createElement('button');
+  const downloadButton = document.createElement('button');
 
+  // Set button icon (SVG) 
   const path = chrome.runtime.getURL("assets/download-icon.svg");
   const response = await fetch(path);
   const svgText = await response.text()
-
   downloadButton.innerHTML = svgText;
 
+  if (buttonFromContainer) {
+    // Make button match style of other buttons in the container
+    downloadButton.className = buttonFromContainer.className
+  }
+
+  // Set button action
   downloadButton.addEventListener("click", async () => {
     await downloadEpub();
   });
 
-  if (buttonFromContainer) {
-    downloadButton.className = buttonFromContainer.className
-  }
-
+  // Add button to container
   buttonContainer?.appendChild(downloadButton);
 }
 
 async function downloadEpub() {
+  // Get Pubhub div from DOM
   const pubhubReaderDiv = document.querySelector('#pubhub-reader');
-  const orderId = pubhubReaderDiv?.getAttribute('order-id');
-
-  if (!orderId) {
-    // TODO: Add error
+  if (!pubhubReaderDiv) {
+    alert("Pub Hub div could not be found");
     return;
   }
 
-  const metadata = await MetadataService.getMetadata(orderId);
-  const fileData = await FileService.getFile(metadata);
+  // Get order id from div attribute
+  const orderId = pubhubReaderDiv.getAttribute('order-id');
+  if (!orderId) {
+    alert("Order ID could not be found");
+    return;
+  }
 
-  const blob = new Blob([fileData], { type: 'application/epub+zip' });
-  const url = URL.createObjectURL(blob);
+  try {
+    // Fetch content
+    const metadata = await MetadataService.getMetadata(orderId);
+    const fileData = await FileService.getFile(metadata);
 
-  chrome.runtime.sendMessage({ action: "download", title: metadata.title, url: url });
+    // Format download url
+    const blob = new Blob([fileData], { type: 'application/epub+zip' });
+    const url = URL.createObjectURL(blob);
+
+    // Send to background to download
+    chrome.runtime.sendMessage({ action: "download", title: metadata.title, url: url });
+  } catch (error: any) {
+    alert(`Error occured while fetching epub: ${error.message}`);
+  }
 }
