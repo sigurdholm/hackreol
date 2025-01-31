@@ -1,16 +1,10 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
     content: './src/content.ts',
     background: './src/background.ts',
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-  },
-  resolve: {
-    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
@@ -21,6 +15,19 @@ module.exports = {
       },
     ],
   },
-  devtool: 'source-map',  // Useful for debugging
-  mode: 'development',    // Change to 'production' for minification
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.js',
+    clean: true,
+  },
+  plugins: [
+    new CopyPlugin({
+      patterns: [{ from: 'static' }],
+    }),
+  ],
+  devtool: 'source-map',
+  mode: 'development',
 };

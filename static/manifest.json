@@ -7,7 +7,7 @@
         "downloads"
     ],
     "background": {
-        "service_worker": "dist/background.bundle.js"
+        "service_worker": "background.bundle.js"
     },
     "content_scripts": [
         {
@@ -15,7 +15,7 @@
                 "https://*/*"
             ],
             "js": [
-                "dist/content.bundle.js"
+                "content.bundle.js"
             ]
         }
     ],
