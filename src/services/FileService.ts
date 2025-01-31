@@ -10,7 +10,7 @@ export class FileService {
         const encryptedData = await response.arrayBuffer();
         const decryptedKey = await KeyDecryptor.decrypt(metadata.key);
         const encryptionEngine = new AesCtrEncryptionEngine(decryptedKey);
-        const data = encryptionEngine.decrypt(encryptedData, 0);
-        return data
+        const decryptedData = encryptionEngine.decrypt(encryptedData, 0);
+        return decryptedData
     }
 }
