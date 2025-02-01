@@ -6,12 +6,6 @@
     "icons": {
         "128": "icons/128.png"
     },
-    "permissions": [
-        "downloads"
-    ],
-    "background": {
-        "service_worker": "background.bundle.js"
-    },
     "content_scripts": [
         {
             "matches": [

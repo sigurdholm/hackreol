@@ -50,12 +50,21 @@ async function downloadEpub() {
     const metadata = await MetadataService.getMetadata(orderId);
     const fileData = await FileService.getFile(metadata);
 
-    // Format download url
+    // Format data
     const blob = new Blob([fileData], { type: 'application/epub+zip' });
     const url = URL.createObjectURL(blob);
+    const fileName = `${metadata.author} - ${metadata.title}.epub`
 
-    // Send to background to download
-    chrome.runtime.sendMessage({ action: "download", title: metadata.title, url: url });
+    // Download by utilizing a temporary hyperlink tag
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click(); // Trigger the download
+    
+    // Clean up
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   } catch (error: any) {
     alert(`Error occured while fetching epub: ${error.message}`);
   }
